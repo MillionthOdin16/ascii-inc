@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  role      String   @default("buyer") // "buyer" | "artist" | "admin"
+  stripeCustomerId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  artPieces ArtPiece[]
+  orders    Order[]
+}
+
+model ArtPiece {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  asciiContent String
+  priceCents  Int
+  currency    String   @default("usd")
+  status      String   @default("draft") // "draft" | "active" | "sold"
+  width       Int      // character width
+  height      Int      // line count
+  tags        String?  // comma-separated
+  imageUrl    String?  // optional preview image
+
+  artistId    String
+  artist      User     @relation(fields: [artistId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  orderItems  OrderItem[]
+}
+
+model Order {
+  id                  String   @id @default(cuid())
+  status              String   @default("pending") // "pending" | "completed" | "refunded"
+  stripeSessionId     String?  @unique
+  stripePaymentIntent String?
+  totalCents          Int
+  currency            String   @default("usd")
+
+  buyerId             String
+  buyer               User     @relation(fields: [buyerId], references: [id])
+
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  items               OrderItem[]
+}
+
+model OrderItem {
+  id          String   @id @default(cuid())
+
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id])
+
+  artPieceId  String
+  artPiece    ArtPiece @relation(fields: [artPieceId], references: [id])
+
+  priceCents  Int
+
+  createdAt   DateTime @default(now())
+}
