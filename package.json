@@ -10,6 +10,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@libsql/client": "^0.17.2",
+    "@prisma/adapter-libsql": "^7.6.0",
     "@prisma/client": "^7.6.0",
     "@stripe/stripe-js": "^9.0.1",
     "dotenv": "^17.4.0",
