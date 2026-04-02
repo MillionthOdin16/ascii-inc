@@ -13,9 +13,11 @@ export default function Home() {
  ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝`}</pre>
           <span className="text-xl font-bold text-green-300 sm:hidden">ASCII INC</span>
           <nav className="flex gap-6 text-sm">
-            <a href="/art" className="hover:text-green-200 transition-colors">Gallery</a>
+            <a href="/art" className="hover:text-green-200 transition-colors">Browse</a>
             <a href="/about" className="hover:text-green-200 transition-colors">About</a>
-            <a href="/artists" className="hover:text-green-200 transition-colors">Artists</a>
+            <a href="/artists" className="hover:text-green-200 transition-colors">For Artists</a>
+            <span className="text-green-800">|</span>
+            <span className="text-green-500">Cart (0)</span>
           </nav>
         </div>
       </header>
